@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Skin Assessment | The Aesthetic Studio Bendigo</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#00B4A0; --teal-bright:#00D4BC; --peach:#E8A87C; --peach-light:#F5C7A0;
+    --bg:#0A1414; --bg-card:#0F1C1C; --text:#E8F0EF; --text-mid:#A8B4B3; --text-faint:#6B7574;
+    --white:#fff;
+  }
+  *{margin:0; padding:0; box-sizing:border-box;}
+  body{
+    font-family:'Open Sans',sans-serif; background:var(--bg); color:var(--text);
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    padding:2rem 1rem;
+    background-image:radial-gradient(circle at 20% 10%, rgba(0,180,160,0.08), transparent 50%),
+                     radial-gradient(circle at 80% 90%, rgba(232,168,124,0.06), transparent 50%);
+  }
+  .container{max-width:680px; width:100%;}
+  .brand{text-align:center; margin-bottom:1.5rem;}
+  .brand-label{font-family:'Montserrat',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal-bright);}
+  .brand-name{font-family:'Montserrat',sans-serif; font-size:0.9rem; font-weight:600; color:var(--text-mid); margin-top:0.3rem; letter-spacing:0.05em;}
+  .card{
+    background:var(--bg-card); border:1px solid rgba(0,180,160,0.15);
+    border-radius:16px; padding:2.5rem 2rem; box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  }
+  .progress{display:flex; gap:0.4rem; margin-bottom:1.8rem;}
+  .progress span{flex:1; height:4px; background:rgba(255,255,255,0.08); border-radius:2px; transition:background 0.3s;}
+  .progress span.active{background:var(--teal-bright);}
+  h1{font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3.5vw,1.9rem); font-weight:800; text-transform:uppercase; line-height:1.2; margin-bottom:0.5rem;}
+  h1 .teal{color:var(--teal-bright);}
+  .sub{color:var(--text-mid); font-size:0.92rem; margin-bottom:1.8rem; line-height:1.5;}
+  .question{font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1.2rem;}
+  .options{display:flex; flex-direction:column; gap:0.6rem; margin-bottom:1.5rem;}
+  .option{
+    background:rgba(255,255,255,0.03); border:1.5px solid rgba(255,255,255,0.08);
+    border-radius:10px; padding:1rem 1.2rem; cursor:pointer;
+    font-family:'Open Sans',sans-serif; font-size:0.95rem; color:var(--text);
+    text-align:left; transition:all 0.2s; display:flex; align-items:center; gap:0.8rem;
+  }
+  .option:hover{border-color:var(--teal); background:rgba(0,180,160,0.06);}
+  .option.selected{border-color:var(--teal-bright); background:rgba(0,180,160,0.1);}
+  .option-icon{width:28px; height:28px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s;}
+  .option.selected .option-icon{border-color:var(--teal-bright); background:var(--teal-bright);}
+  .option.selected .option-icon::after{content:''; width:10px; height:10px; border-radius:50%; background:var(--bg-card);}
+  .btn-row{display:flex; gap:0.8rem; justify-content:space-between; margin-top:0.5rem;}
+  .btn{font-family:'Montserrat',sans-serif; font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; padding:0.85rem 1.6rem; border-radius:8px; border:none; cursor:pointer; transition:all 0.2s;}
+  .btn-primary{background:var(--teal-bright); color:var(--bg);}
+  .btn-primary:hover{background:var(--teal); transform:translateY(-1px);}
+  .btn-primary:disabled{opacity:0.3; cursor:not-allowed; transform:none;}
+  .btn-ghost{background:transparent; color:var(--text-mid); border:1px solid rgba(255,255,255,0.1);}
+  .btn-ghost:hover{color:var(--text); border-color:rgba(255,255,255,0.25);}
+  .input{width:100%; background:rgba(255,255,255,0.04); border:1.5px solid rgba(255,255,255,0.08); border-radius:8px; padding:0.85rem 1rem; color:var(--text); font-family:'Open Sans',sans-serif; font-size:0.95rem; margin-bottom:0.8rem;}
+  .input:focus{outline:none; border-color:var(--teal-bright);}
+  .input-label{font-size:0.72rem; font-family:'Montserrat',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-mid); margin-bottom:0.4rem; display:block;}
+  .result-header{text-align:center; margin-bottom:1.5rem;}
+  .result-badge{display:inline-block; background:rgba(0,212,188,0.12); border:1px solid var(--teal-bright); color:var(--teal-bright); padding:0.4rem 1rem; border-radius:30px; font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:1rem;}
+  .rec-card{background:rgba(0,180,160,0.05); border:1px solid rgba(0,180,160,0.2); border-radius:10px; padding:1.2rem; margin-bottom:0.8rem;}
+  .rec-card h4{font-family:'Montserrat',sans-serif; font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--teal-bright); margin-bottom:0.4rem;}
+  .rec-card p{font-size:0.9rem; color:var(--text-mid); line-height:1.5;}
+  .cta-block{text-align:center; margin-top:1.5rem; padding-top:1.5rem; border-top:1px solid rgba(255,255,255,0.06);}
+  .cta-block p{color:var(--text-mid); margin-bottom:1rem; font-size:0.95rem;}
+  .cta-btn{display:inline-block; background:var(--peach); color:var(--bg); padding:1rem 2.2rem; border-radius:8px; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; text-decoration:none; transition:all 0.2s;}
+  .cta-btn:hover{background:var(--peach-light); transform:translateY(-1px); box-shadow:0 8px 20px rgba(232,168,124,0.3);}
+  .footer{text-align:center; margin-top:1.5rem; font-size:0.72rem; color:var(--text-faint); letter-spacing:0.05em;}
+  .footer a{color:var(--teal-bright); text-decoration:none;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="brand">
+    <div class="brand-label">Free Skin Assessment</div>
+    <div class="brand-name">The Aesthetic Studio Bendigo</div>
+  </div>
+
+  <div class="card">
+    <div class="progress">
+      <span id="p1" class="active"></span><span id="p2"></span><span id="p3"></span><span id="p4"></span><span id="p5"></span><span id="p6"></span>
+    </div>
+
+    <!-- Intro -->
+    <div id="step-0" class="step">
+      <h1>Get Your Personalised <span class="teal">Skin Plan</span></h1>
+      <p class="sub">2 minutes. 5 questions. A treatment roadmap built around your skin, your goals, and your routine - written by our university-qualified dermal clinicians.</p>
+      <div class="btn-row" style="justify-content:flex-end;">
+        <button class="btn btn-primary" onclick="next()">Start Assessment &rarr;</button>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div id="step-1" class="step hidden">
+      <p class="question">What's your number one skin concern right now?</p>
+      <div class="options" data-q="concern">
+        <div class="option" data-v="pigmentation"><div class="option-icon"></div>Pigmentation, sun damage or uneven tone</div>
+        <div class="option" data-v="acne"><div class="option-icon"></div>Acne, congestion or breakouts</div>
+        <div class="option" data-v="aging"><div class="option-icon"></div>Fine lines, wrinkles or loss of firmness</div>
+        <div class="option" data-v="texture"><div class="option-icon"></div>Texture, scarring or large pores</div>
+        <div class="option" data-v="redness"><div class="option-icon"></div>Redness, rosacea or sensitivity</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost" onclick="prev()">&larr; Back</button><button class="btn btn-primary" onclick="next()">Next &rarr;</button></div>
+    </div>
+
+    <!-- Q2 -->
+    <div id="step-2" class="step hidden">
+      <p class="question">What's your age range?</p>
+      <div class="options" data-q="age">
+        <div class="option" data-v="20s"><div class="option-icon"></div>20s</div>
+        <div class="option" data-v="30s"><div class="option-icon"></div>30s</div>
+        <div class="option" data-v="40s"><div class="option-icon"></div>40s</div>
+        <div class="option" data-v="50plus"><div class="option-icon"></div>50+</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost" onclick="prev()">&larr; Back</button><button class="btn btn-primary" onclick="next()">Next &rarr;</button></div>
+    </div>
+
+    <!-- Q3 -->
+    <div id="step-3" class="step hidden">
+      <p class="question">How would you describe your current skincare routine?</p>
+      <div class="options" data-q="routine">
+        <div class="option" data-v="none"><div class="option-icon"></div>Pretty much nothing - I'm starting from scratch</div>
+        <div class="option" data-v="basic"><div class="option-icon"></div>Cleanser and moisturiser - the basics</div>
+        <div class="option" data-v="intermediate"><div class="option-icon"></div>Active ingredients (retinol, vitamin C, acids)</div>
+        <div class="option" data-v="advanced"><div class="option-icon"></div>Full routine plus regular in-clinic treatments</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost" onclick="prev()">&larr; Back</button><button class="btn btn-primary" onclick="next()">Next &rarr;</button></div>
+    </div>
+
+    <!-- Q4 -->
+    <div id="step-4" class="step hidden">
+      <p class="question">How quickly do you want to see real results?</p>
+      <div class="options" data-q="urgency">
+        <div class="option" data-v="event"><div class="option-icon"></div>I have an event in the next 1-3 months</div>
+        <div class="option" data-v="committed"><div class="option-icon"></div>Ready to commit to a 3-6 month plan</div>
+        <div class="option" data-v="lifestyle"><div class="option-icon"></div>Long-term skin investment - no rush</div>
+        <div class="option" data-v="curious"><div class="option-icon"></div>Just exploring my options for now</div>
+      </div>
+      <div class="btn-row"><button class="btn btn-ghost" onclick="prev()">&larr; Back</button><button class="btn btn-primary" onclick="next()">Next &rarr;</button></div>
+    </div>
+
+    <!-- Q5 contact -->
+    <div id="step-5" class="step hidden">
+      <p class="question">Where should we send your plan?</p>
+      <p class="sub" style="margin-bottom:1.2rem;">Sophie (our 4-year qualified Dermal Clinician) will personally review your answers and send a tailored treatment roadmap within 24 hours.</p>
+      <label class="input-label">First Name</label>
+      <input class="input" id="firstName" placeholder="Jane">
+      <label class="input-label">Email</label>
+      <input class="input" id="email" type="email" placeholder="jane@email.com">
+      <label class="input-label">Mobile</label>
+      <input class="input" id="phone" type="tel" placeholder="04XX XXX XXX">
+      <div class="btn-row"><button class="btn btn-ghost" onclick="prev()">&larr; Back</button><button class="btn btn-primary" onclick="finish()">Get My Plan &rarr;</button></div>
+    </div>
+
+    <!-- Result -->
+    <div id="step-result" class="step hidden">
+      <div class="result-header">
+        <div class="result-badge">Your Skin Profile</div>
+        <h1 id="resultTitle">Your <span class="teal">Personalised Plan</span></h1>
+      </div>
+
+      <div class="rec-card">
+        <h4>Primary Focus</h4>
+        <p id="recFocus">Loading...</p>
+      </div>
+      <div class="rec-card">
+        <h4>Recommended Treatments</h4>
+        <p id="recTreatments">Loading...</p>
+      </div>
+      <div class="rec-card">
+        <h4>Your At-Home Foundation</h4>
+        <p id="recHome">Loading...</p>
+      </div>
+
+      <div class="cta-block">
+        <p>Your full plan is on the way to your inbox.<br>Want to fast-track it? Book a complimentary skin consult with Sophie this week.</p>
+        <a href="https://book.timely.com/Book/Location/26269/Group" target="_blank" class="cta-btn">Book My Free Consult</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    The Aesthetic Studio Bendigo &middot; 83 Wills St &middot; <a href="https://theaestheticstudiobendigo.com.au" target="_blank">theaestheticstudiobendigo.com.au</a>
+  </div>
+</div>
+
+<script>
+  const answers = {};
+  let step = 0;
+  const total = 6;
+
+  document.querySelectorAll('.options').forEach(group => {
+    group.addEventListener('click', e => {
+      const opt = e.target.closest('.option');
+      if(!opt) return;
+      group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers[group.dataset.q] = opt.dataset.v;
+    });
+  });
+
+  function showStep(n){
+    document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+    const id = n === 6 ? 'step-result' : 'step-' + n;
+    document.getElementById(id).classList.remove('hidden');
+    for(let i=1; i<=6; i++){
+      document.getElementById('p'+i).classList.toggle('active', i <= n);
+    }
+  }
+  function next(){ if(step < total - 1){ step++; showStep(step); } }
+  function prev(){ if(step > 0){ step--; showStep(step); } }
+
+  function finish(){
+    const fn = document.getElementById('firstName').value.trim();
+    const em = document.getElementById('email').value.trim();
+    const ph = document.getElementById('phone').value.trim();
+    if(!fn || !em || !ph){ alert('Please fill in all fields so Sophie can send your plan.'); return; }
+    answers.firstName = fn; answers.email = em; answers.phone = ph;
+    buildResult();
+    step = 6;
+    showStep(step);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function buildResult(){
+    const c = answers.concern, age = answers.age, r = answers.routine, u = answers.urgency;
+
+    const focusMap = {
+      pigmentation: 'Brightening and pigment correction - resurfacing the uneven tone while protecting against further damage.',
+      acne: 'Calming active breakouts, decongesting the skin, and rebuilding a clear barrier.',
+      aging: 'Stimulating collagen, smoothing fine lines, and restoring firmness from the inside out.',
+      texture: 'Resurfacing the skin to smooth texture, soften scarring and refine pore appearance.',
+      redness: 'Strengthening the skin barrier, calming inflammation and reducing visible redness.'
+    };
+
+    const treatmentMap = {
+      pigmentation: 'Deca Tetra CO2 laser resurfacing, Cutera Xeo IPL for pigment, plus DMK enzyme therapy to brighten and remodel.',
+      acne: 'DMK enzyme therapy and corrective peels, paired with LED light therapy and a clinical-grade home routine.',
+      aging: 'SkinPen microneedling and Deca Tetra CO2 for collagen induction, plus targeted injectable consult with our RNs if appropriate.',
+      texture: 'SkinPen microneedling series, medium-depth peels and Deca Tetra CO2 for deeper scarring.',
+      redness: 'LED light therapy, gentle enzyme treatments and barrier-repair home prescriptives to calm and strengthen.'
+    };
+
+    let homeRec = 'A simple corrective routine - medical-grade cleanser, vitamin C serum, retinol (introduced gradually) and broad-spectrum SPF 50.';
+    if(r === 'none' || r === 'basic') homeRec = 'We\'ll start you on a foundational corrective routine: medical-grade cleanser, vitamin C serum, broad-spectrum SPF and a gentle active. Built progressively so your skin isn\'t overwhelmed.';
+    if(r === 'advanced') homeRec = 'Your routine is already strong - we\'ll fine-tune your actives, layer in any missing prescriptives, and align your home protocol with your in-clinic plan.';
+
+    let urgencyNote = '';
+    if(u === 'event') urgencyNote = ' Given your timeline, we\'ll prioritise quick-win treatments (LED, enzyme, peels) in the first 4 weeks and stack stronger treatments closer to your event.';
+    if(u === 'committed') urgencyNote = ' Perfect window - we\'ll map out a 3-6 month treatment series so you see compounding results.';
+
+    document.getElementById('resultTitle').innerHTML = (answers.firstName || 'Your') + ', here\'s your <span class="teal">Plan</span>';
+    document.getElementById('recFocus').textContent = focusMap[c] || 'A tailored treatment plan based on your skin goals.';
+    document.getElementById('recTreatments').textContent = (treatmentMap[c] || 'A custom mix of our in-clinic devices and treatments.') + urgencyNote;
+    document.getElementById('recHome').textContent = homeRec;
+  }
+</script>
+</body>
+</html>
